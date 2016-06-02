@@ -1,4 +1,4 @@
-/* Copyright 2016, XXXXXXX
+/* Copyright 2016, 6ta Escuela RUSE
  * All rights reserved.
  *
  * This file is part of CIAA Firmware.
@@ -33,7 +33,7 @@
 
 #ifndef ACT3_H
 #define ACT3_H
-/** \brief Bare Metal example header file
+/** \brief Encabezado de aplicación de Actividad 3
  **
  ** This is a mini example of the CIAA Firmware
  **
@@ -55,7 +55,7 @@
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20160531 v0.0.1 initials initial version
  */
 
 /*==================[inclusions]=============================================*/
@@ -95,8 +95,6 @@ extern void ResetISR(void);
  **/
 extern void _vStackTop(void);
 
-
-void ISR_RIT_Handler(void);
 void RIT_IRQHandler(void);
 
 
@@ -104,6 +102,17 @@ void RIT_IRQHandler(void);
 #endif
 
 /*==================[external functions declaration]=========================*/
+
+/* Manejador de Interrupciones del Timer RIT */
+void ISR_RIT_Handler(void);
+
+/* Inicializador de los temporizadores por soft*/
+void sft_tmr_init(void);
+
+void leds_procesar(void);
+
+void sft_tim_init(void);
+
 
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */

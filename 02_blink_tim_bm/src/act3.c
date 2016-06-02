@@ -1,4 +1,4 @@
-/* Copyright 2016, XXXXXX
+/* Copyright 2016, 6ta Escuela RUSE
  * All rights reserved.
  *
  * This file is part of CIAA Firmware.
@@ -31,10 +31,13 @@
  *
  */
 
-/** \brief Blinking Bare Metal example source file
+/** \brief Actividad 3: Psicodelia
  **
- ** This is a mini example of the CIAA Firmware.
+ ** Psicodelia: Aplicación
  **
+ ** Diseñe una aplicación que haga parpadear de manera secuencial todos los
+ ** leds de la placa (incluyendo el RGB) con un periodo de 100 ms cada uno.
+ ** Se deberá emplear la interrupción del RIT Timer.
  **/
 
 /** \addtogroup CIAA_Firmware CIAA Firmware
@@ -54,7 +57,7 @@
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20160531 v0.0.1 initials initial version
  */
 
 /*==================[inclusions]=============================================*/
@@ -63,7 +66,21 @@
 
 /*==================[macros and definitions]=================================*/
 
+#define PER_BASE 10U	// Período para base de tiempos (10ms)
+#define PER_SFT0 10U	// Período de timer de soft (10x10ms)
+#define MAX_TM	1U
+#define GATILLADO 1U
+#define NO_GATILLADO 0U
+#define SFTIM0	0U
+
 /*==================[internal data declaration]==============================*/
+
+/* Estructura para temporizadores por soft. 10ms de base */
+struct sft_tmr {
+	uint32_t reload;	// Período de disparo
+	uint32_t cuenta;	// Valor de cuenta
+	uint8_t	 disparo;	// Cuenta llegó al límite. Aplicación debe limpiarla
+}sft_tmrs[MAX_TM];
 
 /*==================[internal functions declaration]=========================*/
 
@@ -90,37 +107,63 @@ int main(void)
 {
    /* perform the needed initialization here */
 
-	uint32_t cuenta;
-
 
 	leds_init();
-	leds_ciclo_init(100);
+	sft_tim_init();
+	base_tiempo_init(PER_BASE);
+
 
 
 	while(1)
 	{
-//
-//			for(led=0;led<6;led++)
-//			{
-//				led_toggle(led);
-//			}
+		leds_procesar();
 	}
 
 }
 
+void sft_tim_init(void)
+{
+	sft_tmrs[SFTIM0].reload = PER_SFT0;
+	sft_tmrs[SFTIM0].cuenta = PER_SFT0;
+	sft_tmrs[SFTIM0].disparo = NO_GATILLADO;
+}
+
 void ISR_RIT_Handler(void)
 {
-	static uint8_t led=0;
+	uint8_t timers;
 
-	led_toggle(led);
-	if(led == LED3)
+	for(timers = 0; timers < MAX_TM; timers++)
 	{
-		led = LED0_R;
-	}else{
-		led++;
+		if(sft_tmrs[timers].cuenta != 0)
+		{
+			sft_tmrs[timers].cuenta--;
+		}
+		else
+		{
+			sft_tmrs[timers].cuenta = sft_tmrs[timers].reload;
+			sft_tmrs[timers].disparo = GATILLADO;	// Aplicación debe limpiar los timers gatillados
+		}
 	}
 
-	limp_rit_int();
+	limp_rit_int(PER_BASE);
+}
+
+void leds_procesar(void)
+{
+	static uint8_t led=1;
+
+	if (sft_tmrs[0].disparo)
+	{
+		sft_tmrs[0].disparo = NO_GATILLADO;
+		led_toggle(led);
+		if(led == LED3)
+		{
+			led = LED0_R;
+		}else{
+			led <<= 1;
+		}
+		led_toggle(led);
+	}
 }
 
 /** @} doxygen end group definition */
