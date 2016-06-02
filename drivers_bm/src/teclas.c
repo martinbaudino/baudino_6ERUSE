@@ -115,7 +115,6 @@ void teclas_init(void)
 uint8_t teclas_leer(void)
 {
 	uint32_t lectura;
-	uint32_t check;
 	uint8_t tec_leidas = 0x0F;
 
 	lectura = Chip_GPIO_ReadValue(LPC_GPIO_PORT, GPIO0);

@@ -1,4 +1,4 @@
-/* Copyright 2016, XXXXXXXXXX
+/* Copyright 2016, 6ta Escuela RUSE
  * All rights reserved.
  *
  * This file is part of CIAA Firmware.
@@ -33,9 +33,9 @@
 
 #ifndef LED_H
 #define LED_H
-/** \brief Bare Metal example header file
+/** \brief Encabezado del driver de LEDs
  **
- ** This is a mini example of the CIAA Firmware
+ ** Contiene definiciones de interfaces de LEDs y funciones de drivers.
  **
  **/
 
@@ -55,7 +55,7 @@
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20160530 v0.0.1 initials initial version
  */
 
 /*==================[inclusions]=============================================*/
@@ -66,35 +66,71 @@
 #define lpc4337            1
 #define mk60fx512vlq15     2
 
-#define LED0_R	0
-#define LED0_G	1
-#define LED0_B	2
-#define LED1	3
-#define LED2	4
-#define LED3	5
+/*
+ * Definiciones de acceso público de la librería, para pasar a funciones
+ */
+
+/* Campos de bits de LEDs */
+#define LED0_R	0x01
+#define LED0_G	0x02
+#define LED0_B	0x04
+#define LED1	0x08
+#define LED2	0x10
+#define LED3	0x20
 
 /*==================[typedef]================================================*/
 
-
-
 /*==================[external data declaration]==============================*/
-
-
-
-
-
-
-
-
-
-
-
 
 /*==================[external functions declaration]=========================*/
 
+/* Función:
+ * void led_on(uint8_t leds): Función de encendido de LEDs
+ *
+ * Parámetros:
+ * uint8_t leds: Campo de bits para banderas con nombres de LED como en placa EduCIAA.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void led_on(uint8_t leds);
+
+
+ /* Función:
+  * void led_off(uint8_t leds): Función de apagado de LEDs
+  *
+  * Parámetros:
+  * uint8_t leds: Campo de bits para banderas con nombres de LED como en placa EduCIAA.
+  *
+  * Devuelve:
+  * void: Nada
+  */
 void led_off(uint8_t leds);
+
+
+/* Función:
+ * void led_toggle(uint8_t leds): Función de conmutación de LEDs
+ *
+ * Parámetros:
+ * uint8_t leds: Campo de bits para banderas con nombres de LED como en placa EduCIAA.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void led_toggle(uint8_t leds);
+
+
+/* Función:
+ * void leds_init(uint8_t leds): Función de configuración de LEDs.
+ * Configura el Multiplexado de los pines, activa los pull-ups, como salidas
+ * e inicializa los LEDs apagados.
+ *
+ * Parámetros:
+ * uint8_t leds: Campo de bits para banderas con nombres de LED como en placa EduCIAA.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void leds_init(void);
 
 
@@ -103,5 +139,6 @@ void leds_init(void);
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef MI_NUEVO_PROYECTO_H */
+#endif /* LED_H */
+
 

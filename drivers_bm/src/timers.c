@@ -70,18 +70,22 @@
 #include "timers.h"
 
 
-void leds_ciclo_init(uint32_t retardo)
+void base_tiempo_init(uint32_t tiempo_base)
 {
 	Chip_RIT_Init(LPC_RITIMER);
-	Chip_RIT_SetTimerInterval(LPC_RITIMER, retardo);
+	Chip_RIT_SetTimerInterval(LPC_RITIMER, tiempo_base);
 
 	NVIC_EnableIRQ(RITIMER_IRQn);
 }
 
-void limp_rit_int(void)
+
+void limp_rit_int(uint32_t retardo)
 {
+	Chip_RIT_SetTimerInterval(LPC_RITIMER, retardo);
 	Chip_RIT_ClearInt(LPC_RITIMER);
 }
+
+
 
 
 

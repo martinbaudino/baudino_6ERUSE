@@ -1,4 +1,4 @@
-/* Copyright 2016, XXXXXXXXX  
+/* Copyright 2016, 6ta Escuela RUSE
  * All rights reserved.
  *
  * This file is part of CIAA Firmware.
@@ -31,7 +31,7 @@
  *
  */
 
-/** \brief Blinking Bare Metal driver led
+/** \brief Código fuente del driver de LEDs
  **
  **
  **
@@ -54,7 +54,7 @@
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20160530 v0.0.1 initials initial version
  */
 
 /*==================[inclusions]=============================================*/
@@ -70,31 +70,30 @@
 #include "led.h"
 
 
-
-
-
-
-
-
-
-
-
-
-
 /*==================[macros and definitions]=================================*/
+
+/*
+ * Definiciones privadas del módulo.
+ * Con nombres referidos al hardware como en edu-ciaa-nxp-pinout-a4-v3r2-es.pdf
+ */
+
+/* Bloques de Puertos */
 #define PB2 	2
+
+/* Puertos/Función de Pin */
 #define GPIO0	0
 #define GPIO1	1
 #define GPIO5	5
+
+/* Nombres de Pines en uC*/
 #define P2_0 	0
 #define P2_1 	1
 #define P2_2 	2
 #define P2_10 	14
 #define P2_11	11
 #define P2_12	12
-#define GPIO_INPUT	0
-#define GPIO_OUTPUT 1
 
+/* Números de Pines en Puertos */
 #define PIN0 	1<<0
 #define PIN1 	1<<1
 #define PIN2 	1<<2
@@ -102,6 +101,9 @@
 #define PIN11 	1<<11
 #define PIN12 	1<<12
 
+/* Direcciones de Datos */
+#define GPIO_INPUT	0
+#define GPIO_OUTPUT 1
 
 
 /*==================[internal data declaration]==============================*/
@@ -115,119 +117,107 @@
 /*==================[internal functions definition]==========================*/
 
 /*==================[external functions definition]==========================*/
-/** \brief Main function
- *
- * This is the main entry point of the software.
- *
- * \returns 0
- *
- * \remarks This function never returns. Return value is only to avoid compiler
- *          warnings or errors.
- */
+
 
 void led_on(uint8_t leds)
 {
-	switch(leds)
+	if(leds & LED0_R)
 	{
-	case LED0_R:
 		Chip_GPIO_SetValue(LPC_GPIO_PORT, GPIO5, PIN0);
-		break;
-
-	case LED0_G:
+	}
+	if(leds & LED0_G)
+	{
 		Chip_GPIO_SetValue(LPC_GPIO_PORT, GPIO5, PIN1);
-		break;
-
-	case LED0_B:
-		Chip_GPIO_SetValue(LPC_GPIO_PORT, GPIO5, PIN2);
-		break;
-
-	case LED1:
-		Chip_GPIO_SetValue(LPC_GPIO_PORT, GPIO0, PIN14);
-		break;
-
-	case LED2:
-		Chip_GPIO_SetValue(LPC_GPIO_PORT, GPIO1, PIN11);
-		//Chip_GPIO_SetPinOutHigh(LPC_GPIO_PORT, GPIO1,11);
-		break;
-
-	case LED3:
-		Chip_GPIO_SetValue(LPC_GPIO_PORT, GPIO1, PIN12);
-		break;
-	default:
-		break;
 	}
 
+	if(leds & LED0_B)
+	{
+		Chip_GPIO_SetValue(LPC_GPIO_PORT, GPIO5, PIN2);
+	}
 
+	if(leds & LED1)
+	{
+		Chip_GPIO_SetValue(LPC_GPIO_PORT, GPIO0, PIN14);
+	}
 
+	if(leds & LED2)
+	{
+		Chip_GPIO_SetValue(LPC_GPIO_PORT, GPIO1, PIN11);
+	}
+
+	if(leds & LED3)
+	{
+		Chip_GPIO_SetValue(LPC_GPIO_PORT, GPIO1, PIN12);
+	}
 }
 
 void led_off(uint8_t leds)
 {
-	switch(leds)
+	if(leds & LED0_R)
 	{
-	case LED0_R:
 		Chip_GPIO_ClearValue(LPC_GPIO_PORT, GPIO5, PIN0);
-		break;
-
-	case LED0_G:
+	}
+	if(leds & LED0_G)
+	{
 		Chip_GPIO_ClearValue(LPC_GPIO_PORT, GPIO5, PIN1);
-		break;
-
-	case LED0_B:
-		Chip_GPIO_ClearValue(LPC_GPIO_PORT, GPIO5, PIN2);
-		break;
-
-	case LED1:
-		Chip_GPIO_ClearValue(LPC_GPIO_PORT, GPIO0, PIN14);
-		break;
-
-	case LED2:
-		Chip_GPIO_ClearValue(LPC_GPIO_PORT, GPIO1, PIN11);
-		//Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, GPIO1,11);
-		break;
-
-	case LED3:
-		Chip_GPIO_ClearValue(LPC_GPIO_PORT, GPIO1, PIN12);
-		break;
-	default:
-		break;
 	}
 
+	if(leds & LED0_B)
+	{
+		Chip_GPIO_ClearValue(LPC_GPIO_PORT, GPIO5, PIN2);
+	}
+
+	if(leds & LED1)
+	{
+		Chip_GPIO_ClearValue(LPC_GPIO_PORT, GPIO0, PIN14);
+	}
+
+	if(leds & LED2)
+	{
+		Chip_GPIO_ClearValue(LPC_GPIO_PORT, GPIO1, PIN11);
+	}
+
+	if(leds & LED3)
+	{
+		Chip_GPIO_ClearValue(LPC_GPIO_PORT, GPIO1, PIN12);
+	}
 }
 
 void led_toggle(uint8_t leds)
 {
-	switch(leds)
+	uint8_t check;
+
+	check = (leds & LED0_R);
+	if(check)
 	{
-	case LED0_R:
 		Chip_GPIO_SetPortToggle(LPC_GPIO_PORT, GPIO5, PIN0);
-		break;
-
-	case LED0_G:
+	}
+	if(leds & LED0_G)
+	{
 		Chip_GPIO_SetPortToggle(LPC_GPIO_PORT, GPIO5, PIN1);
-		break;
-
-	case LED0_B:
-		Chip_GPIO_SetPortToggle(LPC_GPIO_PORT, GPIO5, PIN2);
-		break;
-
-	case LED1:
-		Chip_GPIO_SetPortToggle(LPC_GPIO_PORT, GPIO0, PIN14);
-		break;
-
-	case LED2:
-		Chip_GPIO_SetPortToggle(LPC_GPIO_PORT, GPIO1, PIN11);
-		break;
-
-	case LED3:
-		Chip_GPIO_SetPortToggle(LPC_GPIO_PORT, GPIO1, PIN12);
-		break;
-	default:
-		break;
-
 	}
 
+	if(leds & LED0_B)
+	{
+		Chip_GPIO_SetPortToggle(LPC_GPIO_PORT, GPIO5, PIN2);
+	}
+
+	if(leds & LED1)
+	{
+		Chip_GPIO_SetPortToggle(LPC_GPIO_PORT, GPIO0, PIN14);
+	}
+
+	if(leds & LED2)
+	{
+		Chip_GPIO_SetPortToggle(LPC_GPIO_PORT, GPIO1, PIN11);
+	}
+
+	if(leds & LED3)
+	{
+		Chip_GPIO_SetPortToggle(LPC_GPIO_PORT, GPIO1, PIN12);
+	}
 }
+
 
 void leds_init(void)
 {
