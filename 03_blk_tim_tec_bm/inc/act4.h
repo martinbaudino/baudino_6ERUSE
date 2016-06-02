@@ -1,4 +1,4 @@
-/* Copyright 2016, XXXXXXX
+/* Copyright 2016, 6ta Escuela RUSE
  * All rights reserved.
  *
  * This file is part of CIAA Firmware.
@@ -31,9 +31,9 @@
  *
  */
 
-#ifndef ACT3_H
-#define ACT3_H
-/** \brief Bare Metal example header file
+#ifndef ACT4_H
+#define ACT4_H
+/** \brief Encabezado de Aplicación de Actividad 4
  **
  ** This is a mini example of the CIAA Firmware
  **
@@ -55,7 +55,7 @@
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20160531 v0.0.1 initials initial version
  */
 
 /*==================[inclusions]=============================================*/
@@ -97,7 +97,6 @@ extern void ResetISR(void);
 extern void _vStackTop(void);
 
 
-void ISR_RIT_Handler(void);
 void RIT_IRQHandler(void);
 
 uint8_t ciclaleds(uint8_t comando);
@@ -107,9 +106,25 @@ uint8_t ciclaleds(uint8_t comando);
 
 /*==================[external functions declaration]=========================*/
 
+/* Manejador de Interrupciones del Timer RIT */
+void ISR_RIT_Handler(void);
+
+/* Inicializador de los temporizadores por soft*/
+void sft_tmr_init(void);
+
+void leds_procesar(void);
+void leds_ciclar(uint8_t comando);
+
+uint8_t teclas_procesar(void);
+
+void sft_tim_init(void);
+
+void sft_tim_procesar(void);
+
+
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef BAREMETAL_BLINKING_H */
+#endif /* #ifndef ACT4_H */
 

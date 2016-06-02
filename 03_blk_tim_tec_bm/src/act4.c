@@ -1,4 +1,4 @@
-/* Copyright 2016, XXXXXX
+/* Copyright 2016, 6ta Escuela RUSE
  * All rights reserved.
  *
  * This file is part of CIAA Firmware.
@@ -31,9 +31,13 @@
  *
  */
 
-/** \brief Blinking Bare Metal example source file
+/** \brief Actividad 4: Control de Leds
  **
- ** This is a mini example of the CIAA Firmware.
+ ** Control de Leds
+ **
+ ** Programe una aplicación que emplee los drivers led.c y teclas.c para
+ ** seleccionar el led que parapdea de la EDU-CIAA según la consigna 3.1.c de
+ ** la Guia de Ejercitación Práctica.
  **
  **/
 
@@ -62,8 +66,40 @@
 
 
 /*==================[macros and definitions]=================================*/
+#define MAX_TM		2U
+
+#define SFT_LEDS	0U
+#define SFT_BOUNCE	1U
+
+#define PER_BASE 	10U	// Período para base de tiempos (10ms)
+#define PER_MIN		1U
+#define PER_MAX 	200
+#define PER_INC 	PER_MIN
+
+
+#define PER_LEDS 	25U	// Período de conmutación de LEDs (25x10ms)
+#define PER_BOUNCE 	7U	// Período para antirrebotes de teclas (7x10ms)
+
+#define GATILLADO 1U
+#define NO_GATILLADO 0U
+
+
+
+
+
 
 /*==================[internal data declaration]==============================*/
+/* Estructura para temporizadores por soft. 10ms de base */
+struct sft_tmr {
+	uint32_t reload;	// Período de disparo
+	uint32_t cuenta;	// Valor de cuenta
+	uint8_t	 disparo;	// Cuenta llegó al límite. Aplicación debe limpiarla
+	void (*fp_procesar)(void);
+}sft_tmrs[MAX_TM];
+
+
+uint8_t curr_led = LED0_R;
+
 
 /*==================[internal functions declaration]=========================*/
 
@@ -90,35 +126,21 @@ int main(void)
 {
    /* perform the needed initialization here */
 
-	uint32_t cuenta;
-	uint8_t teclas_puls = 0;
-
-
 	leds_init();
 	teclas_init();
 
+	sft_tim_init();
+	base_tiempo_init(PER_BASE);
 
 	while(1)
 	{
-		for(cuenta = 10000000; cuenta !=0; cuenta--);
-		teclas_puls = teclas_leer();
-
-
-
-
-
-		if(teclas_puls != 0)
-		{
-			led_toggle(LED1);
-		}
+		sft_tim_procesar();
 	}
 
 }
 
-uint8_t ciclaleds(uint8_t comando)
+void leds_ciclar(uint8_t comando)
 {
-	static uint8_t curr_led= 0;
-
 	if(comando & TEC1)
 	{
 		if(curr_led == LED0_R)
