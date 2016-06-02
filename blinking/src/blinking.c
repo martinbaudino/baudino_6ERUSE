@@ -37,6 +37,13 @@
  **
  ** This is a mini example of the CIAA Firmware.
  **
+ ** Actividad 1: Blinking
+ ** Blinking, nuestro "Hello World"
+ **
+ ** 1. Compile, Simule y Descargue a Flash el ejemplo Blinking. CIAA FIRMWARE
+ ** 2. Cree una carpeta projects dentro de la carpeta Firmware.
+ ** 3. Cree una copia del ejemplo Blinking en la carpeta projects
+ ** 4. Compile esa copia modificando el color del led que parpadee
  **/
 
 /** \addtogroup CIAA_Firmware CIAA Firmware
