@@ -183,8 +183,9 @@ TASK(PeriodicTask)
    ciaaPOSIX_printf("Blinking\n");
 
    /* blink output */
+   /* TAREA MODIFICADA PARA QUE PARPADEEN LOS LEDS ROJO Y VERDE */
    ciaaPOSIX_read(fd_out, &outputs, 1);
-   outputs ^= 0x20;
+   outputs ^= 0x30;
    ciaaPOSIX_write(fd_out, &outputs, 1);
 
    /* terminate task */
