@@ -33,7 +33,7 @@
 
 #ifndef ACT2_H
 #define ACT2_H
-/** \brief Bare Metal example header file
+/** \brief Encabezado de Actividad 2
  **
  ** This is a mini example of the CIAA Firmware
  **
@@ -55,7 +55,7 @@
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20160530 v0.0.1 initials initial version
  */
 
 /*==================[inclusions]=============================================*/
@@ -108,5 +108,5 @@ void RIT_IRQHandler(void);
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef BAREMETAL_BLINKING_H */
+#endif /* #ifndef ACT2_H */
 

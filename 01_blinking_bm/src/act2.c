@@ -71,7 +71,7 @@
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20160530 v0.0.1 initials initial version
  */
 
 /*==================[inclusions]=============================================*/
@@ -114,7 +114,7 @@ int main(void)
 
 	while(1)
 	{
-		/* Contador que cicla todos los estados posibles de los LEDs*/
+		/* Contador que cicla todos los estados posibles de los LEDs */
 		for(led = LED0_R; led <= LED3; led++)
 		{
 			for(cuenta=10000000; cuenta!=0; cuenta--);
