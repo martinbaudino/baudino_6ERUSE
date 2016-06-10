@@ -1,4 +1,4 @@
-/* Copyright 2016, XXXXXXXXX
+/* Copyright 2016, 6ta Escuela RUSE
  * All rights reserved.
  *
  * This file is part of CIAA Firmware.
@@ -31,19 +31,12 @@
  *
  */
 
-/** \brief Blinking Bare Metal driver led
+/** \brief Drivers de temporización con RITTIMER
  **
  **
  **
  **/
 
-/** \addtogroup CIAA_Firmware CIAA Firmware
- ** @{ */
-
-/** \addtogroup Examples CIAA Firmware Examples
- ** @{ */
-/** \addtogroup Baremetal Bare Metal LED Driver
- ** @{ */
 
 /*
  * Initials     Name
@@ -54,7 +47,7 @@
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * yyyymmdd v0.0.1 initials initial version
+ * 20160531 v0.0.1 initials initial version
  */
 
 /*==================[inclusions]=============================================*/
@@ -70,6 +63,17 @@
 #include "timers.h"
 
 
+/**
+ * Función:
+ * void base_tiempo_init(uint32_t tiempo_base): Inicialización de base de tiempo
+ * con RIT. Arranca el contador y activa fuente de Interupción.
+ *
+ * Parámetros:
+ * uint32_t tiempo_base: Período de disparo del Temporizador en ms
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void base_tiempo_init(uint32_t tiempo_base)
 {
 	Chip_RIT_Init(LPC_RITIMER);
@@ -78,7 +82,16 @@ void base_tiempo_init(uint32_t tiempo_base)
 	NVIC_EnableIRQ(RITIMER_IRQn);
 }
 
-
+/* Función:
+ * void limp_rit_int(uint32_t tiempo_base): Limpieza de bandera de interrupción
+ * del RIT, con actualización del período de disparo.
+ *
+ * Parámetros:
+ * uint32_t tiempo_base: Período de disparo del Temporizador en ms
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void limp_rit_int(uint32_t retardo)
 {
 	Chip_RIT_SetTimerInterval(LPC_RITIMER, retardo);

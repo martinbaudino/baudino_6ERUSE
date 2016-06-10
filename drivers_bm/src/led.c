@@ -118,7 +118,16 @@
 
 /*==================[external functions definition]==========================*/
 
-
+/**
+ * Función:
+ * void led_on(uint8_t leds): Función de encendido de LEDs
+ *
+ * Parámetros:
+ * uint8_t leds: Campo de bits para banderas con nombres de LED como en placa EduCIAA.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void led_on(uint8_t leds)
 {
 	if(leds & LED0_R)
@@ -151,6 +160,16 @@ void led_on(uint8_t leds)
 	}
 }
 
+ /**
+  * Función:
+  * void led_off(uint8_t leds): Función de apagado de LEDs
+  *
+  * Parámetros:
+  * uint8_t leds: Campo de bits para banderas con nombres de LED como en placa EduCIAA.
+  *
+  * Devuelve:
+  * void: Nada
+  */
 void led_off(uint8_t leds)
 {
 	if(leds & LED0_R)
@@ -183,6 +202,16 @@ void led_off(uint8_t leds)
 	}
 }
 
+/**
+ * Función:
+ * void led_toggle(uint8_t leds): Función de conmutación de LEDs
+ *
+ * Parámetros:
+ * uint8_t leds: Campo de bits para banderas con nombres de LED como en placa EduCIAA.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void led_toggle(uint8_t leds)
 {
 	uint8_t check;
@@ -218,7 +247,18 @@ void led_toggle(uint8_t leds)
 	}
 }
 
-
+/**
+ * Función:
+ * void leds_init(uint8_t leds): Función de configuración de LEDs.
+ * Configura el Multiplexado de los pines como salidas, activa los pull-ups,
+ * e inicializa los LEDs apagados.
+ *
+ * Parámetros:
+ * uint8_t leds: Campo de bits para banderas con nombres de LED como en placa EduCIAA.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void leds_init(void)
 {
 	Chip_GPIO_Init(LPC_GPIO_PORT);

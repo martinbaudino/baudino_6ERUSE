@@ -33,6 +33,7 @@
 
 #ifndef LED_H
 #define LED_H
+
 /** \brief Encabezado del driver de LEDs
  **
  ** Contiene definiciones de interfaces de LEDs y funciones de drivers.
@@ -66,11 +67,16 @@
 #define lpc4337            1
 #define mk60fx512vlq15     2
 
-/*
+/**
  * Definiciones de acceso público de la librería, para pasar a funciones
+ *
+ * Campos de bits de LEDs: Cada bit encendido se corresponde con un LED
+ * particular. Las funciones toman como parámetro un entero de 8 bits
+ * y actúan sobre los que corresponda.
+ *
+ * Ej: led_on( LED0_R | LED1 ); --> Encenderá ambos LEDs
  */
 
-/* Campos de bits de LEDs */
 #define LED0_R	0x01
 #define LED0_G	0x02
 #define LED0_B	0x04
@@ -84,7 +90,8 @@
 
 /*==================[external functions declaration]=========================*/
 
-/* Función:
+/**
+ * Función:
  * void led_on(uint8_t leds): Función de encendido de LEDs
  *
  * Parámetros:
@@ -96,7 +103,8 @@
 void led_on(uint8_t leds);
 
 
- /* Función:
+ /**
+  * Función:
   * void led_off(uint8_t leds): Función de apagado de LEDs
   *
   * Parámetros:
@@ -108,7 +116,8 @@ void led_on(uint8_t leds);
 void led_off(uint8_t leds);
 
 
-/* Función:
+/**
+ * Función:
  * void led_toggle(uint8_t leds): Función de conmutación de LEDs
  *
  * Parámetros:
@@ -120,7 +129,8 @@ void led_off(uint8_t leds);
 void led_toggle(uint8_t leds);
 
 
-/* Función:
+/**
+ * Función:
  * void leds_init(uint8_t leds): Función de configuración de LEDs.
  * Configura el Multiplexado de los pines, activa los pull-ups, como salidas
  * e inicializa los LEDs apagados.

@@ -1,9 +1,24 @@
+/** \brief Encabezado de Drivers de temporización con RITTIMER
+ **
+ **
+ **
+ **/
+
+/*
+ * modification history (new versions first)
+ * -----------------------------------------------------------
+ * 20160531 v0.0.1 initials initial version
+ */
+
 #ifndef TIMERS_BM
 #define TIMERS_BM
 
+
+
 #include "stdint.h"
 
-/* Función:
+/**
+ * Función:
  * void base_tiempo_init(uint32_t tiempo_base): Inicialización de base de tiempo
  * con RIT. Arranca el contador y activa fuente de Interupción.
  *
