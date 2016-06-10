@@ -103,15 +103,44 @@ void RIT_IRQHandler(void);
 
 /*==================[external functions declaration]=========================*/
 
-/* Manejador de Interrupciones del Timer RIT */
+/**
+ * Función:
+ * void ISR_RIT_Handler(void): Manejador de Interrupciones del Timer RIT
+ *
+ * Parámetros:
+ * void: Ninguno.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void ISR_RIT_Handler(void);
 
-/* Inicializador de los temporizadores por soft*/
-void sft_tmr_init(void);
 
+/**
+ * Función:
+ * void leds_procesar(void): Procesamiento de funcionalidad de LEDs.
+ *
+ * Parámetros:
+ * void: Ninguno.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void leds_procesar(void);
 
+
+/**
+ * Función:
+ * void sft_tim_init(void): Inicialización de Timers por Software
+ *
+ * Parámetros:
+ * void: Ninguno.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void sft_tim_init(void);
+
 
 
 /** @} doxygen end group definition */

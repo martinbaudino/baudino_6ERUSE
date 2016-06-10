@@ -66,20 +66,43 @@
 
 /*==================[macros and definitions]=================================*/
 
-#define PER_BASE 10U	// Período para base de tiempos (10ms)
-#define PER_SFT0 10U	// Período de timer de soft (10x10ms)
-#define MAX_TM	1U
+/**
+ * Cantidad de Timers por software implementados
+ */
+#define MAX_TM		1U
+
+
+/**
+ * Nombres descriptivos para indización en vector de Timers
+ */
+#define SFT_LEDS	0U	// Timer para parpadeo de LEDs
+
+
+/**
+ * Equivalencias para períodos de los Timers por Soft. Valores son múltiplos
+ * de PER_BASE
+ */
+#define PER_BASE 	10U	// Período para base de tiempos en ms (10ms)
+
+#define PER_LEDS 	10U	// Período de conmutación de LEDs (10x10ms)
+
+/**
+ * Definiciones de gatillado de timers por software
+ */
 #define GATILLADO 1U
 #define NO_GATILLADO 0U
-#define SFTIM0	0U
+
 
 /*==================[internal data declaration]==============================*/
 
-/* Estructura para temporizadores por soft. 10ms de base */
+/**
+ * Estructura para temporizadores por soft. PER_BASE ms como base de tiempos
+ */
 struct sft_tmr {
 	uint32_t reload;	// Período de disparo
 	uint32_t cuenta;	// Valor de cuenta
 	uint8_t	 disparo;	// Cuenta llegó al límite. Aplicación debe limpiarla
+	void (*fp_procesar)(void);
 }sft_tmrs[MAX_TM];
 
 /*==================[internal functions declaration]=========================*/
@@ -107,27 +130,44 @@ int main(void)
 {
    /* perform the needed initialization here */
 
-
 	leds_init();
 	sft_tim_init();
 	base_tiempo_init(PER_BASE);
 
-
-
 	while(1)
 	{
-		leds_procesar();
 	}
-
 }
 
+/**
+ * Función:
+ * void sft_tim_init(void): Inicialización de Timers por Software
+ *
+ * Parámetros:
+ * void: Ninguno.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void sft_tim_init(void)
 {
-	sft_tmrs[SFTIM0].reload = PER_SFT0;
-	sft_tmrs[SFTIM0].cuenta = PER_SFT0;
-	sft_tmrs[SFTIM0].disparo = NO_GATILLADO;
+	sft_tmrs[SFT_LEDS].reload = PER_LEDS;
+	sft_tmrs[SFT_LEDS].cuenta = PER_LEDS;
+	sft_tmrs[SFT_LEDS].disparo = NO_GATILLADO;
+	sft_tmrs[SFT_LEDS].fp_procesar = &leds_procesar;
 }
 
+
+/**
+ * Función:
+ * void ISR_RIT_Handler(void): Manejador de Interrupciones del Timer RIT
+ *
+ * Parámetros:
+ * void: Ninguno.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void ISR_RIT_Handler(void)
 {
 	uint8_t timers;
@@ -142,28 +182,40 @@ void ISR_RIT_Handler(void)
 		{
 			sft_tmrs[timers].cuenta = sft_tmrs[timers].reload;
 			sft_tmrs[timers].disparo = GATILLADO;	// Aplicación debe limpiar los timers gatillados
+			sft_tmrs[timers].fp_procesar();
 		}
 	}
-
 	limp_rit_int(PER_BASE);
 }
 
+
+/**
+ * Función:
+ * void leds_procesar(void): Procesamiento de funcionalidad de LEDs.
+ *
+ * Parámetros:
+ * void: Ninguno.
+ *
+ * Devuelve:
+ * void: Nada
+ */
 void leds_procesar(void)
 {
-	static uint8_t led=1;
+	static uint8_t led = LED0_R;
 
-	if (sft_tmrs[0].disparo)
+	sft_tmrs[SFT_LEDS].disparo = NO_GATILLADO;
+
+	led_toggle(led);
+
+	if(led == LED3)
 	{
-		sft_tmrs[0].disparo = NO_GATILLADO;
-		led_toggle(led);
-		if(led == LED3)
-		{
-			led = LED0_R;
-		}else{
-			led <<= 1;
-		}
-		led_toggle(led);
+		led = LED0_R;
+	}else{
+		led <<= 1;
 	}
+
+	led_toggle(led);
+
 }
 
 /** @} doxygen end group definition */
