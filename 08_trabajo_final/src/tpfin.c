@@ -68,16 +68,26 @@
 
 
 /*==================[macros and definitions]=================================*/
+
+/**
+ * Cantidad de Timers por software implementados
+ */
 #define MAX_TM		5U
 
-#define SFT_LEDS	0U
-#define SFT_BOUNCE	1U
-#define SFT_SIGGEN  2U
-#define SFT_ADC  	3U
-#define SFT_UART	4U
+/**
+ * Nombres descriptivos para indización en vector de Timers por Soft
+ */
+#define SFT_LEDS	0U	// Timer para parpadeo de LEDs
+#define SFT_BOUNCE	1U	// Timer para antirrebote de pulsadores
+#define SFT_SIGGEN  2U	// Timer para generador de señales
+#define SFT_ADC  	3U	// Timer para lectura de ADC
+#define SFT_UART	4U	// Timer para procesamiento de datos de UART
 
-
-#define PER_BASE 	1U	// Período para base de tiempos (1ms)
+/**
+ * Equivalencias para períodos de los Timers por Soft. Valores son múltiplos
+ * de PER_BASE
+ */
+#define PER_BASE 	1U	// Período para base de tiempos en ms (1ms)
 #define PER_MIN		1U
 #define PER_MAX 	(200U * PER_MIN)
 #define PER_INC 	(10 * PER_MIN)
@@ -89,9 +99,15 @@
 #define PER_ADC		 10U	// Período muestreo (10ms) (f_sample = 100Hz)
 #define PER_UART	1000U
 
+/**
+ * Definiciones de gatillado de timers por software
+ */
 #define GATILLADO 	 1U
 #define NO_GATILLADO 0U
 
+/**
+ * Amplitudes para el DAC
+ */
 #define AMP_MAX 	1023U
 #define AMP_INC 	50U
 #define AMP_START 	0U
@@ -102,13 +118,20 @@
 #define GEN_AMP_L	570U
 #define GEN_AMP_H	290U
 
+
+/**
+ * Definiciones para control del buffer del ADC
+ */
 #define ADC_BUF_SIZE	20U
 #define ADC_BUF_CLEAR	0U
 #define ADC_BUF_FULL	1U
 
 
 /*==================[internal data declaration]==============================*/
-/* Estructura para temporizadores por soft. 10ms de base */
+
+/**
+ * Estructura para temporizadores por soft. PER_BASE ms como base de tiempos
+ */
 struct sft_tmr {
 	uint32_t reload;	// Período de disparo
 	uint32_t cuenta;	// Valor de cuenta
